@@ -1,0 +1,17 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "challenge",
+  "password": "challenge",
+  "database": "challenge",
+  "entities": [
+    "dist/**/*.entity{.ts.js}"
+  ],
+  "migrations": [
+    "src/migrations/*{.js,.ts}"
+  ],
+  "cli": {
+    "migrationsDir": "src/migrations/"
+  }
+}
