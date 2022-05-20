@@ -68,5 +68,19 @@ describe('PlaceService', () => {
       expect(placeRepository.save).toHaveBeenCalledWith(mockCreatePlaceDto);
       expect(result).toBe('mockPlace');
     });
+
+    it('should return values on success', async () => {
+      const mockSavePlace = {
+        id: 'any_id',
+        countryId: 'any_country_id',
+        mark: 'any_mark',
+        place: 'any_place',
+        createdAt: new Date()
+      };
+      placeRepository.save.mockResolvedValue(mockSavePlace);
+
+      const result = await service.create(mockCreatePlaceDto);
+      expect(result).toBe(mockSavePlace);
+    });
   });
 });
