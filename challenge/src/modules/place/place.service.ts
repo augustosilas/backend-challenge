@@ -18,7 +18,7 @@ export class PlaceService {
   async create(createPlaceDto: CreatePlaceDto) {
     const place = await this.placeRepository.findOne({
       place: createPlaceDto.place,
-      mark: createPlaceDto.mark,
+      countryId: createPlaceDto.countryId,
     });
 
     if (place) throw new BadRequestException('Duplicate place');
