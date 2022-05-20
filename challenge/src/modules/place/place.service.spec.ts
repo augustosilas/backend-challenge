@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePlaceDto } from './dtos/create-place.dto';
 import { PlaceService } from './place.service';
@@ -48,19 +49,16 @@ describe('PlaceService', () => {
     it('should call findOne with correct values', async () => {
       const mockParamFindOne = {
         place: 'any_place',
-        mark: 'any_mark',
+        countryId: 'any_country_id',
       };
       await service.create(mockCreatePlaceDto);
       expect(placeRepository.findOne).toHaveBeenCalledWith(mockParamFindOne);
     });
 
     it('should throw BadRequestException if place exists in same country', async () => {
-      const mockParamFindOne = {
-        place: 'any_place',
-        mark: 'any_mark',
-      };
-      await service.create(mockCreatePlaceDto);
-      expect(placeRepository.findOne).toHaveBeenCalledWith(mockParamFindOne);
+      placeRepository.findOne.mockResolvedValue(mockCreatePlaceDto);
+      const result = service.create(mockCreatePlaceDto);
+      expect(result).rejects.toThrow(BadRequestException);
     });
 
     it('should call save with correct values', async () => {
