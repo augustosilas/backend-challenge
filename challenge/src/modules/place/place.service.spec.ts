@@ -159,4 +159,12 @@ describe('PlaceService', () => {
       expect(result).toEqual(mockPlaces);
     });
   });
+
+  describe('deletePlace', () => {
+    it('should call delete with correct value', async () => {
+      const placeId = 'any_place_id'
+      await service.delete(placeId);
+      expect(placeRepository.delete).toHaveBeenCalledWith(placeId);
+    });
+  });
 });
