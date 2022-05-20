@@ -133,5 +133,30 @@ describe('PlaceService', () => {
         select: ['id', 'mark', 'place'],
       });
     });
+
+    it('should return all places on success', async () => {
+      const mockCountry = {
+        id: 'any_country_id1',
+        name: 'any_name1',
+        urlImg: 'any_url',
+      };
+      const mockPlaces = [
+        {
+          id: 'any_id_1',
+          place: 'any_place1',
+          mark: 'any_mark1',
+          country: mockCountry,
+        },
+        {
+          id: 'any_id_2',
+          place: 'any_place2',
+          mark: 'any_mark2',
+          country: mockCountry,
+        },
+      ];
+      placeRepository.find.mockReturnValueOnce(mockPlaces);
+      const result = await service.findAll();
+      expect(result).toEqual(mockPlaces);
+    });
   });
 });
