@@ -123,4 +123,15 @@ describe('PlaceService', () => {
       expect(result).toEqual(mockUpdatedPlace);
     });
   });
+
+  describe('findAllPlace', () => {
+    it('should call find with correct values', async () => {
+      await service.findAll();
+      expect(placeRepository.find).toHaveBeenCalledWith({
+        order: { mark: 'DESC' },
+        relations: ['country'],
+        select: ['id', 'mark', 'place'],
+      });
+    });
+  });
 });
