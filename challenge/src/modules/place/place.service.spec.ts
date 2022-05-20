@@ -2,6 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePlaceDto } from './dtos/create-place.dto';
 import { PlaceService } from './place.service';
+import mockDate from 'mockdate';
 
 const mockPlaceRepository = () => ({
   save: jest.fn(),
@@ -28,6 +29,12 @@ describe('PlaceService', () => {
 
     placeRepository = await module.get<'PLACE_REPOSITORY'>('PLACE_REPOSITORY');
     service = await module.get<PlaceService>(PlaceService);
+
+    mockDate.set(new Date());
+  });
+
+  afterEach(() => {
+    mockDate.reset();
   });
 
   it('should be defined', async () => {
@@ -75,12 +82,32 @@ describe('PlaceService', () => {
         countryId: 'any_country_id',
         mark: 'any_mark',
         place: 'any_place',
-        createdAt: new Date()
+        createdAt: new Date(),
       };
       placeRepository.save.mockResolvedValue(mockSavePlace);
 
       const result = await service.create(mockCreatePlaceDto);
       expect(result).toBe(mockSavePlace);
+    });
+  });
+
+  describe('updatePlace', () => {
+    let mockUpdatePlaceDto;
+    beforeEach(() => {
+      mockUpdatePlaceDto = {
+        countryId: 'any_country_id',
+        mark: 'any_mark',
+        place: 'any_place',
+      };
+    });
+    it('should call update with correct values', async () => {
+      const placeId = 'any_place_id';
+      await service.update(placeId, mockUpdatePlaceDto);
+      expect(placeRepository.save).toHaveBeenCalledWith({
+        id: placeId,
+        ...mockUpdatePlaceDto,
+        updatedAt: new Date(),
+      });
     });
   });
 });
