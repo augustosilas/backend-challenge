@@ -109,5 +109,18 @@ describe('PlaceService', () => {
         updatedAt: new Date(),
       });
     });
+
+    it('should return place updated on success', async () => {
+      const placeId = 'any_place_id';
+      const mockUpdatedPlace = {
+        id: placeId,
+        mark: 'any_mark',
+        place: 'any_place',
+        updatedAt: new Date(),
+      };
+      placeRepository.save.mockReturnValueOnce(mockUpdatedPlace);
+      const result = await service.update(placeId, mockUpdatePlaceDto);
+      expect(result).toEqual(mockUpdatedPlace);
+    });
   });
 });
