@@ -45,6 +45,15 @@ describe('PlaceService', () => {
       };
     });
 
+    it('should call findOne with correct values', async () => {
+      const mockParamFindOne = {
+        place: 'any_place',
+        mark: 'any_mark',
+      };
+      await service.create(mockCreatePlaceDto);
+      expect(placeRepository.findOne).toHaveBeenCalledWith(mockParamFindOne);
+    });
+
     it('should call save with correct values', async () => {
       placeRepository.save.mockResolvedValue('mockPlace');
 
